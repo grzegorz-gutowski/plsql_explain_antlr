@@ -4,7 +4,10 @@ from antlr4 import *
 from PlSqlLexer import PlSqlLexer
 from PlSqlParser import PlSqlParser
 from PlSqlParserListener import PlSqlParserListener
-import sys
+
+EXAMPLES = [
+    ' BEGIN SELECT * FROM A; END; update B SET c=d;'
+]
 
 class CaseChangingStream():
     def __init__(self, stream, upper=True):
@@ -64,13 +67,14 @@ def explain(script):
 
 def main():
     import glob
-    for p in glob.glob('examples/*.sl'):
+    for p in glob.glob('examples/*'):
         with open(p) as pf:
             script=pf.read()
             print(script)
             print(explain(script))
-    script = ' BEGIN SELECT * FROM A; END; update B SET c=d;'
-    print(explain(script))
+    for script in EXAMPLES:
+        print(script)
+        print(explain(script))
 
 if __name__ == '__main__':
     main()
